@@ -1,0 +1,112 @@
+# OSX
+#
+.DS_Store
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+
+# Bundle artifacts
+*.jsbundle
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.aab
+*.apk
+output-metadata.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+
+# Secrets & keys
+*.keystore
+*.jks
+keystore.properties
+.env
+.env.*
+!.env.example
+na_token.json
+google-service-account.json
+google-services.json
+GoogleService-Info.plist
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node / Expo
+node_modules/
+.expo/
+dist/
+build/
+
+# Android build outputs
+android/app/build/
+android/build/
+*.apk
+*.aab
+
+# iOS
+ios/Pods/
+*.xcworkspace/
+
+# OS
+.DS_Store
+Thumbs.db 
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Node / Expo
+node_modules/
+.expo/
+dist/
+
+# Secrets
+.env
+.env.*
+.env.example
+*.keystore
+*.jks
+keystore.properties
+google-services.json
+na_token.json

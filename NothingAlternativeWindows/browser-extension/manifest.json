@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Nothing Alternative Blocker",
+  "version": "1.0",
+  "description": "Blocks distracting tabs during Nothing Alternative focus sessions.",
+  "permissions": ["tabs", "webNavigation", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["<all_urls>"]
+}

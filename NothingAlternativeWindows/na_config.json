@@ -1,0 +1,368 @@
+{
+  "last_goal": "testing",
+  "active_profile": "test",
+  "profiles": {
+    "Default": {
+      "allowed_apps": [
+        "resolve"
+      ],
+      "banned_keywords": [
+        "youtube",
+        "facebook",
+        "instagram",
+        "twitter",
+        "x.com",
+        "reddit",
+        "tiktok",
+        "netflix"
+      ]
+    },
+    "test": {
+      "allowed_apps": [
+        "resolve"
+      ],
+      "banned_keywords": [
+        "youtube",
+        "facebook",
+        "instagram",
+        "twitter",
+        "x.com",
+        "reddit",
+        "tiktok",
+        "netflix",
+        "twitch"
+      ]
+    }
+  },
+  "history": [
+    {
+      "ts": "2026-06-22T14:41:27",
+      "goal": "testing",
+      "duration": 21,
+      "blocked": 4,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-22T14:41:09"
+        },
+        {
+          "type": "app",
+          "name": "obsidian.exe",
+          "ts": "2026-06-22T14:41:13"
+        },
+        {
+          "type": "tab",
+          "name": "youtube",
+          "ts": "2026-06-22T14:41:19"
+        },
+        {
+          "type": "tab",
+          "name": "youtube",
+          "ts": "2026-06-22T14:41:22"
+        }
+      ]
+    },
+    {
+      "ts": "2026-06-16T13:49:57",
+      "goal": "testing",
+      "duration": 25,
+      "blocked": 11,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "obsidian.exe",
+          "ts": "2026-06-16T13:49:36"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:36"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:38"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:40"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:42"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:44"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:46"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:48"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:50"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:52"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-16T13:49:54"
+        }
+      ]
+    },
+    {
+      "ts": "2026-06-01T13:02:17",
+      "goal": "testing",
+      "duration": 7,
+      "blocked": 1,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-01T13:02:13"
+        }
+      ]
+    },
+    {
+      "ts": "2026-06-01T11:29:39",
+      "goal": "testing",
+      "duration": 39,
+      "blocked": 4,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-06-01T11:29:03"
+        },
+        {
+          "type": "app",
+          "name": "obsidian.exe",
+          "ts": "2026-06-01T11:29:13"
+        },
+        {
+          "type": "tab",
+          "name": "youtube",
+          "ts": "2026-06-01T11:29:25"
+        },
+        {
+          "type": "tab",
+          "name": "instagram",
+          "ts": "2026-06-01T11:29:34"
+        }
+      ]
+    },
+    {
+      "ts": "2026-05-30T17:37:15",
+      "goal": "testing",
+      "duration": 20,
+      "blocked": 3,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-30T17:36:58"
+        },
+        {
+          "type": "app",
+          "name": "studio64.exe",
+          "ts": "2026-05-30T17:36:59"
+        },
+        {
+          "type": "tab",
+          "name": "youtube",
+          "ts": "2026-05-30T17:37:08"
+        }
+      ]
+    },
+    {
+      "ts": "2026-05-26T19:01:43",
+      "goal": "testing",
+      "duration": 40,
+      "blocked": 4,
+      "profile": "test",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T19:01:06"
+        },
+        {
+          "type": "app",
+          "name": "obsidian.exe",
+          "ts": "2026-05-26T19:01:06"
+        },
+        {
+          "type": "tab",
+          "name": "twitch",
+          "ts": "2026-05-26T19:01:30"
+        },
+        {
+          "type": "tab",
+          "name": "youtube",
+          "ts": "2026-05-26T19:01:39"
+        }
+      ]
+    },
+    {
+      "ts": "2026-05-26T15:48:24",
+      "goal": "testing",
+      "duration": 89,
+      "blocked": 0,
+      "profile": "Default",
+      "block_log": []
+    },
+    {
+      "ts": "2026-05-26T15:37:31",
+      "goal": "testing",
+      "duration": 5175,
+      "blocked": 6,
+      "profile": "Default",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T13:50:14"
+        },
+        {
+          "type": "app",
+          "name": "asusosd.exe",
+          "ts": "2026-05-26T14:12:36"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T14:36:32"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T14:44:02"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T15:18:03"
+        },
+        {
+          "type": "app",
+          "name": "discord.exe",
+          "ts": "2026-05-26T15:37:28"
+        }
+      ]
+    },
+    {
+      "ts": "2026-05-26T13:28:37",
+      "goal": "testing",
+      "duration": 55,
+      "blocked": 0,
+      "profile": "Default",
+      "block_log": []
+    },
+    {
+      "ts": "2026-05-26T13:12:04",
+      "goal": "testing",
+      "duration": 4,
+      "blocked": 2,
+      "profile": "Default",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "obsidian.exe",
+          "ts": "2026-05-26T13:12:03"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-26T13:12:03"
+        }
+      ]
+    },
+    {
+      "ts": "2026-05-25T16:09:56",
+      "goal": "testing",
+      "duration": 36,
+      "blocked": 10,
+      "profile": "Default",
+      "block_log": [
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:23"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:25"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:27"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:29"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:31"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:33"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:35"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:37"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:39"
+        },
+        {
+          "type": "app",
+          "name": "textinputhost.exe",
+          "ts": "2026-05-25T16:09:41"
+        }
+      ]
+    }
+  ],
+  "profiles_updated_at": {},
+  "pending_sync": null,
+  "goal_templates": [
+    "testing"
+  ],
+  "streak_days": 1,
+  "streak_last_date": "2026-06-22"
+}
