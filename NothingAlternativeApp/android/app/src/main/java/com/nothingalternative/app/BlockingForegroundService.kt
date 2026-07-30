@@ -18,6 +18,8 @@ class BlockingForegroundService : Service() {
     private val handler = Handler(Looper.getMainLooper())
     private var pollingRunnable: Runnable? = null
     private val pollIntervalMs = 500L // Slightly faster polling (700ms) for Snappier blocking
+    private var blockedSites = hashSetOf<String>()
+    private var authToken    = ""
 
     // 1. Define your baseline system whitelist
     private val systemWhitelist = hashSetOf(
@@ -57,6 +59,8 @@ class BlockingForegroundService : Service() {
         const val ACTION_STOP  = "STOP"
         const val EXTRA_GOAL   = "EXTRA_GOAL"
         const val EXTRA_ALLOWED = "EXTRA_ALLOWED" 
+        const val EXTRA_BLOCKED = "EXTRA_BLOCKED"
+        const val EXTRA_TOKEN   = "EXTRA_TOKEN"
         private const val TAG  = "NA_ForegroundService"
         val BROWSER_PACKAGES = hashSetOf(
             "com.android.chrome",
@@ -83,6 +87,10 @@ class BlockingForegroundService : Service() {
             ACTION_STOP -> {
                 stopPollingLoop()
                 stopForeground(STOP_FOREGROUND_REMOVE)
+                val vpnStopIntent = Intent(this, BlockingVpnService::class.java).apply {
+                    action = BlockingVpnService.ACTION_STOP
+                }
+                startService(vpnStopIntent)
                 stopSelf()
                 return START_NOT_STICKY
             }
@@ -91,6 +99,16 @@ class BlockingForegroundService : Service() {
                 val allowed = intent?.getStringArrayExtra(EXTRA_ALLOWED)?.toHashSet() ?: hashSetOf()
                 userWhitelist.clear()
                 userWhitelist.addAll(allowed)   
+                val blocked = intent?.getStringArrayExtra(EXTRA_BLOCKED)?.toHashSet() ?: hashSetOf()
+                blockedSites.clear()
+                blockedSites.addAll(blocked)
+                Log.d("BlockingForegroundService", "blockedSites received: $blocked")
+                val vpnIntent = Intent(this, BlockingVpnService::class.java).apply {
+                    action = BlockingVpnService.ACTION_START
+                    putExtra(BlockingVpnService.EXTRA_BLOCKED, blocked.toTypedArray())
+                }
+                startService(vpnIntent)
+                authToken = intent?.getStringExtra(EXTRA_TOKEN) ?: ""
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startForeground(NOTIF_ID, buildNotification(goal), ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
                 } else {

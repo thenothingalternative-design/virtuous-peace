@@ -155,6 +155,7 @@ android {
 
 dependencies {
     implementation("com.facebook.react:react-android")
+    implementation "com.revenuecat.purchases:purchases:8.+" 
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

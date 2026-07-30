@@ -49,6 +49,8 @@ class User(Base):
     trial_ends_at:       Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     stripe_customer_id:  Mapped[str | None] = mapped_column(String, unique=True, nullable=True)
     stripe_subscription_id: Mapped[str | None] = mapped_column(String, unique=True, nullable=True)
+    # ── RevenueCat (Android / iOS IAP) ───────────────────────────────────────
+    revenuecat_id: Mapped[str | None] = mapped_column(String, unique=True, index=True, nullable=True)
     current_period_end:  Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     profiles:       Mapped[list["Profile"]]      = relationship("Profile",       back_populates="user", cascade="all, delete-orphan")

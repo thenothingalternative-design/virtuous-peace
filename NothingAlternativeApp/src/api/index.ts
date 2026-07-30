@@ -253,3 +253,9 @@ export async function getCheckoutUrl(
   const res = await createCheckout(plan);
   return res?.checkout_url ?? null;
 }
+/** Called after a successful RC purchase to sync status to our backend */
+export async function notifyRevenueCatPurchase(
+  rcUserId: string,
+): Promise<{ status: string } | null> {
+  return apiPost('/billing/revenuecat/sync', { rc_user_id: rcUserId });
+}

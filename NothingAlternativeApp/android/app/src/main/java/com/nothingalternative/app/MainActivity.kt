@@ -40,6 +40,19 @@ class MainActivity : ReactActivity() {
    */
   override fun getMainComponentName(): String = "main"
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+      super.onActivityResult(requestCode, resultCode, data)
+      reactActivityDelegate.onActivityResult(requestCode, resultCode, data)
+      if (requestCode == VPN_REQUEST_CODE) {
+          val granted = resultCode == RESULT_OK
+          VpnPermissionHelper.onResult(granted)
+      }
+  }
+
+  companion object {
+      const val VPN_REQUEST_CODE = 1001
+  }
+
   /**
    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]
    * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]

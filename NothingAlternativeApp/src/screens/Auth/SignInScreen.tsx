@@ -21,6 +21,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Fonts, FontSizes, Radius, Spacing } from '../../theme';
 import { useAuth } from '../../auth/AuthContext';
 import { authGoogle, authApple } from '../../api';
+import { initRevenueCat } from '../../api/purchases'; 
 
 // ── Platform-conditional imports ─────────────────────────────────────────────
 // These are resolved at build time; the app never crashes if a module is missing.
@@ -62,6 +63,7 @@ export default function SignInScreen() {
       const tokenData = await authGoogle(idToken);
       if (!tokenData) throw new Error('Backend sign-in failed');
       await signIn(tokenData);
+      await initRevenueCat(tokenData.user_id); 
     } catch (e: any) {
       if (e?.code !== 'SIGN_IN_CANCELLED') {
         setError(e?.message ?? 'Google sign-in failed. Please try again.');
@@ -93,6 +95,7 @@ export default function SignInScreen() {
       const tokenData = await authApple(identityToken, email, displayName);
       if (!tokenData) throw new Error('Backend sign-in failed');
       await signIn(tokenData);
+      await initRevenueCat(tokenData.user_id); 
     } catch (e: any) {
       if (e?.code !== 'ERR_REQUEST_CANCELED') {
         setError(e?.message ?? 'Apple sign-in failed. Please try again.');

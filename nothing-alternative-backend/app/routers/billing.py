@@ -10,6 +10,9 @@ from app.database import get_db
 from app.auth import current_user
 from app.models import User
 
+import hmac, hashlib
+import httpx
+
 router = APIRouter()
 
 stripe.api_key = os.environ.get("STRIPE_SECRET_KEY", "")
@@ -18,7 +21,8 @@ PRICE_MONTHLY  = os.environ.get("STRIPE_PRICE_MONTHLY", "")
 PRICE_YEARLY   = os.environ.get("STRIPE_PRICE_YEARLY", "")
 PRICE_LIFETIME = os.environ.get("STRIPE_PRICE_LIFETIME", "")
 APP_URL         = os.environ.get("APP_URL", "https://backend-production-b2cc.up.railway.app")
-
+RC_WEBHOOK_SECRET = os.environ.get("RC_WEBHOOK_SECRET", "")
+RC_API_KEY        = os.environ.get("RC_API_KEY", "")  # RevenueCat secret key
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class CheckoutRequest(BaseModel):
@@ -253,3 +257,91 @@ def _apply_subscription(user: User, subscription: dict):
     period_end = subscription.get("current_period_end")
     if period_end:
         user.current_period_end = datetime.utcfromtimestamp(period_end)
+        
+# ── POST /billing/revenuecat/webhook ─────────────────────────────────────────
+class RCWebhookRequest(BaseModel):
+    event: dict
+
+@router.post("/revenuecat/webhook")
+async def revenuecat_webhook(
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    RevenueCat calls this for every subscription lifecycle event.
+    Authorization uses a shared secret set in the RC dashboard.
+    """
+    auth = request.headers.get("Authorization", "")
+    if not RC_WEBHOOK_SECRET or auth != f"Bearer {RC_WEBHOOK_SECRET}":
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    body = await request.json()
+    event = body.get("event", {})
+    await _handle_rc_event(event, db)
+    return {"received": True}
+
+
+async def _handle_rc_event(event: dict, db: AsyncSession):
+    event_type  = event.get("type", "")
+    rc_user_id  = event.get("app_user_id")       # this is your user's ID in RC
+    aliases     = event.get("aliases", [])        # RC may send original app_user_id here too
+    period_end  = event.get("expiration_at_ms")   # ms timestamp, None for lifetime
+
+    if not rc_user_id:
+        return
+
+    # RC app_user_id should be set to your backend user.id at login (see purchases.ts)
+    # Try the main ID first, then any aliases
+    user = None
+    for candidate_id in [rc_user_id] + aliases:
+        result = await db.execute(select(User).where(User.id == candidate_id))
+        user = result.scalar_one_or_none()
+        if user:
+            break
+        # Also check revenuecat_id column in case they differ
+        result = await db.execute(select(User).where(User.revenuecat_id == candidate_id))
+        user = result.scalar_one_or_none()
+        if user:
+            break
+
+    if not user:
+        return
+
+    # Never downgrade a lifetime user via subscription events
+    if user.subscription_status == "lifetime" and event_type != "NON_RENEWING_PURCHASE":
+        return
+
+    # Store the RC ID if not already set
+    if not user.revenuecat_id:
+        user.revenuecat_id = rc_user_id
+
+    if event_type in ("INITIAL_PURCHASE", "RENEWAL", "REACTIVATION"):
+        user.subscription_status = "active"
+        if period_end:
+            user.current_period_end = datetime.utcfromtimestamp(period_end / 1000)
+
+    elif event_type == "NON_RENEWING_PURCHASE":
+        # Lifetime / one-time purchase
+        user.subscription_status    = "lifetime"
+        user.current_period_end     = None
+
+    elif event_type == "CANCELLATION":
+        # Cancelled but still active until period end — don't cut off access yet
+        user.subscription_status = "cancelled"
+        if period_end:
+            user.current_period_end = datetime.utcfromtimestamp(period_end / 1000)
+
+    elif event_type == "EXPIRATION":
+        user.subscription_status    = "expired"
+        user.current_period_end     = None
+
+    elif event_type == "BILLING_ISSUE":
+        user.subscription_status = "past_due"
+
+    elif event_type == "PRODUCT_CHANGE":
+        # Plan swap (monthly ↔ yearly) — keep active, update period end
+        user.subscription_status = "active"
+        if period_end:
+            user.current_period_end = datetime.utcfromtimestamp(period_end / 1000)
+
+    await db.commit()

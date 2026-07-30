@@ -48,6 +48,7 @@ interface SessionState {
   elapsedSeconds: number;
   blockedCount:   number;
   blockLog:       BlockLogEntry[];
+  latestSessionData: React.MutableRefObject<{ blockedSites: string[]; allowedApps: string[]; goal: string | null }>;
 
   // Subscription
   subStatus:   string;
@@ -78,6 +79,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const pollRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tickRef    = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const latestSessionData = useRef({ blockedSites: [] as string[], allowedApps: [] as string[], goal: null as string | null });
 
   // Tracks the server-side session state so we can detect transitions
   const sessionRef = useRef({
@@ -102,6 +104,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   // ── Apply status from server ─────────────────────────────────────────────
   const applyStatus = useCallback((status: SessionStatus) => {
+    latestSessionData.current = {
+      blockedSites: status.blocked,
+      allowedApps:  status.allowed_apps,
+      goal:         status.goal ?? null,
+    };
+    
     console.log('[STATUS]', JSON.stringify(status));
 
     const wasActive  = sessionRef.current.isActive;
@@ -270,6 +278,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       subStatus,
       trialEndsAt,
       isPremium,
+      latestSessionData,
       startSession: handleStartSession,
       stopSession:  handleStopSession,
       addBlockEntry,
